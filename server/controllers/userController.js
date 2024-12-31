@@ -219,7 +219,7 @@ export const userLoginStatus = async(req, res)=>{
 
         }
 
-        export const verifyUser = async(req,res)=>{
+ export const verifyUser = async(req,res)=>{
             const {verificationToken} = req.params;
 
             if(!verificationToken){
@@ -325,7 +325,7 @@ export const resetPassword = async(req, res)=>{
         res.status(200).json({ message: "Password reset successfully" });
     }
 
-    export const changePassword = asyncHandler(async (req, res) => {
+    export const changePassword = async (req, res) => {
         const { currentPassword, newPassword } = req.body;
       
         if (!currentPassword || !newPassword) {
@@ -347,5 +347,5 @@ export const resetPassword = async(req, res)=>{
         } else {
           return res.status(400).json({ message: "Password could not be changed!" });
         }
-      });
+      };
 
