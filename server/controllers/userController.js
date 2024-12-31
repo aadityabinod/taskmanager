@@ -78,7 +78,7 @@ export const loginUser = async(req,res)=>{
 
     const token = generateToken(userExists._id);
 
-    if(userExits && isMatch){
+    if(userExists && isMatch){
         const { _id, name, email, role, photo, bio, isVerified } = userExists;
 
         res.cookie('token', token, {
@@ -104,7 +104,7 @@ export const loginUser = async(req,res)=>{
     }
 }
 
-export const logoutUser = async(req, res)=>{
+export const logoutUser = async(_, res)=>{
     res.clearCookie("token", {
         httpOnly: true,
         sameSite: "none",
@@ -204,7 +204,7 @@ export const userLoginStatus = async(req, res)=>{
         const template = 'verifyEmail';
         const url = verificationLink;
         const name = user.name; 
-        const from= process.env.EMAIL,
+        const from= process.env.EMAIL
         const  to = user.email;
          const  reply_to = "noreply@gmail.com";
 
@@ -267,7 +267,7 @@ export const forgotPassword = async(req, res)=>{
         await token.deleteOne();
     }
 
-    const passwordResetToken = crypto.randomBytes(64).toString('hex');
+    const resetToken = crypto.randomBytes(64).toString('hex');
 
     const hashedToken = hashToken(resetToken);
 
@@ -284,7 +284,7 @@ export const forgotPassword = async(req, res)=>{
     const template = 'forgotPassword';
     const url = resetLink;
     const name = user.name;
-    const from = process.env.EMAIL,
+    const from = process.env.EMAIL
     const to = user.email;
     const reply_to = "noreply@noreply.com";
 
