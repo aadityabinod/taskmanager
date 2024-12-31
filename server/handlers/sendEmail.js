@@ -39,16 +39,18 @@ const handlebarOptions = {
 transporter.use('compile', nodemailerExpressHandlebars(handlebarOptions));
 transporter.use('compile', hbs(handlebarOptions));
 
-const sendEmail = async (to, subject, template, name, link) => {
+const sendEmail = async ( from, reply_to, to, subject, template, name, link) => {
     const mailOptions = {
         from: process.env.EMAIL,
         to: to,
         subject: subject,
         template: template,
+        reply_to: reply_to,
         context: {
             name: name,
             link: link,
         },
+
         
     };
 
