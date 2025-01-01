@@ -4,6 +4,7 @@ import dotenv from 'dotenv';
 import { engine } from 'express-handlebars';
 import nodemailerExpressHandlebars from 'nodemailer-express-handlebars';
 import winston from 'winston';
+import hbs from 'nodemailer-express-handlebars';
 
 
 dotenv.config();

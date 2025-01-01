@@ -1,8 +1,9 @@
 import express from 'express';
 import {changePassword, resetPassword, forgotPassword, verifyEmail, updateUser, getUser, logoutUser, loginUser, registerUser, userLoginStatus, verifyUser} from '../controllers/userController.js';
-import { protect, adminMiddleware, creatorMiddleware, verifiedMiddleware } from '../middlewares/authMiddleware.js';
+import { protect, adminMiddleware, creatorMiddleware } from '../middlewares/authMiddleware.js';
 import { getAllUsers, deleteUser } from '../controllers/adminController.js';
 
+const router = express.Router();
 
 router.post("/register", registerUser);
 router.post("/login", loginUser);

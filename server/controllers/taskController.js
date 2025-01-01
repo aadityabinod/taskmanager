@@ -143,7 +143,7 @@ export const deleteTask = async (req, res) => {
   }
 };
 
-export const deleteAllTasks = asyncHandler(async (req, res) => {
+export const deleteAllTasks = async (req, res) => {
   try {
     const userId = req.user._id;
 
@@ -165,4 +165,4 @@ export const deleteAllTasks = asyncHandler(async (req, res) => {
     console.log("Error in deleteAllTasks: ", error.message);
     res.status(500).json({ message: error.message });
   }
-});
+};
