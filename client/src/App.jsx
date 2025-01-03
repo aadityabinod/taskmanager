@@ -1,7 +1,16 @@
-import Headers from "./components/Headers"
+import React from 'react'
+import Header from "./Components/Header/Header"
+import 'font-awesome/css/font-awesome.min.css';
 
-export default function App() {
+function App() {
   return (
-    <Headers/>
+    <div>
+      
+       
+      <Header/>
+     
+    </div>
   )
 }
+
+export default App
