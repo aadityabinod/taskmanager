@@ -1,6 +1,6 @@
 import IconCheck from "../../icons/IconCheck";
 import IconDeleteAll from "../../icons/IconDeleteAll";
-import IconFileCheck from "../../icons/IconFIleCheck";
+import IconFileCheck from "../../icons/IconFileCheck";
 import IconGrid from "../../icons/IconGrid";
 import IconStopwatch from "../../icons/IconStopwatch";
 import { Link, useLocation } from "react-router-dom";
