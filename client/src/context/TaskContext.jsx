@@ -52,7 +52,7 @@ export const TasksProvider = ({children}) =>{
 
       setTasks(response.data.tasks);
     } catch (error) {
-      console.log("Error getting tasks", error.response.data.message);
+      console.log("Error getting tasks", error.response);
     }
     setLoading(false);
   };

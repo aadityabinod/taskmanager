@@ -4,6 +4,7 @@ import {Task} from "../utils/types";
 import {filteredTasks, overdueTasks} from "../utils/utilities";
 import { useEffect } from "react";
 import TaskItem from "../Components/TaskItem/TaskItem";
+import Filters from "../Components/Filters/Filters";
 
 export default function OverDuePages() {
     useRedirect("/login");
@@ -38,5 +39,6 @@ export default function OverDuePages() {
           </button>
         </div>
       </main>
+      
     );
   }

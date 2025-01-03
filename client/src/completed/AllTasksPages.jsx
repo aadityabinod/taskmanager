@@ -1,30 +1,23 @@
+import React, { useEffect } from 'react';
 import { useTasks } from "../context/TaskContext";
-import useRedirect from "../hooks/UseUserRedirect";
-import {filteredTasks} from "../utils/utilities";
 import TaskItem from "../Components/TaskItem/TaskItem";
 import Filters from "../Components/Filters/Filters";
-import { useEffect } from "react";
+import { filteredTasks } from "../utils/utilities";
 
-export default function CompletedPage(){
-    useRedirect("/login");
+function Home() {
+  const { tasks, openModalForAdd, priority, setPriority } = useTasks();
+  const filtered = filteredTasks(tasks, priority);
 
-    const { openModalForAdd, priority, completedTasks, setPriority } = useTasks();
+  useEffect(() => {
+    setPriority("all");
+  }, []);
 
-    const filtered = filteredTasks(completedTasks, priority);
-
-        useEffect(() => {
-            setPriority("all");
-        }, []);
-
-
-
-return (
+  return (
     <main className="m-6 h-full">
       <div className="flex justify-between">
-        <h1 className="text-2xl font-bold">Completed Tasks</h1>
+        <h1 className="text-2xl font-bold">All Tasks</h1>
         <Filters />
       </div>
-
       <div className="pb-[2rem] mt-6 grid grid-cols-[repeat(auto-fill,minmax(300px,1fr))] gap-[1.5rem]">
         {filtered.map((task, i) => (
           <TaskItem key={i} task={task} />
@@ -38,5 +31,7 @@ return (
         </button>
       </div>
     </main>
-  ); 
-}                           
+  );
+}
+
+export default Home;
