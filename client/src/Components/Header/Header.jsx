@@ -1,6 +1,6 @@
 import {useTasks} from '../../context/TaskContext';
 import { useUserContext } from '../../context/UserContext';
-import { github, moon, profile } from '../../utils/Icons';
+import { github, instagram, facebook } from '../../utils/Icons';
 import { Link, useNavigate } from "react-router-dom";
 
 function Header(){
@@ -52,7 +52,7 @@ function Header(){
         </button>
         <div className="flex gap-4 items-center">
           <Link
-            to="https://github.com/Maclinz/taskfyer"
+            to="https://github.com/aadityabinod/taskmanager"
             target="_blank"
             rel="noopener noreferrer"
             className="h-[40px] w-[40px] text-[#FF385C] rounded-full flex items-center justify-center text-lg border-2 border-[#E6E6E6]"
@@ -60,20 +60,20 @@ function Header(){
             {github}
           </Link>
           <Link
-            to="https://github.com/Maclinz/taskfyer"
+            to="https://www.instagram.com/aadityarayyadav/"
             target="_blank"
             rel="noopener noreferrer"
             className="h-[40px] w-[40px] text-[#FF385C] rounded-full flex items-center justify-center text-lg border-2 border-[#E6E6E6]"
           >
-            {moon}
+            {instagram}
           </Link>
           <Link
-            to="https://github.com/Maclinz/taskfyer"
+            to="https://www.facebook.com/aadityabinodyadav108/"
             target="_blank"
             rel="noopener noreferrer"
             className="h-[40px] w-[40px] text-[#FF385C] rounded-full flex items-center justify-center text-lg border-2 border-[#E6E6E6]"
           >
-            {profile}
+            {facebook}
           </Link>
         </div>
       </div>
