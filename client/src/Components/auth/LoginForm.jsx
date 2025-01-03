@@ -9,8 +9,8 @@ function LoginForm() {
   const togglePassword = () => setShowPassword(!showPassword);
 
   return (
-    <form className="relative m-[2rem] px-10 py-14 rounded-lg bg-white w-full max-w-[520px]">
-      <div className="relative z-10">
+    <form className="relative m-[2rem] px-10 py-14 rounded-lg bg-white w-full max-w-[520px] flex flex-wrap items-center">
+      <div className="relative z-10 w-full">
         <h1 className="mb-2 text-center text-[1.35rem] font-medium">
           Login to Your Account
         </h1>
@@ -24,7 +24,7 @@ function LoginForm() {
           </a>
         </p>
 
-        <div className="mt-[1rem] flex flex-col">
+        <div className="mt-[1rem] flex flex-col w-full md:w-1/2">
           <label htmlFor="email" className="mb-1 text-[#999]">
             Email
           </label>
@@ -38,7 +38,7 @@ function LoginForm() {
             placeholder="johndoe@gmail.com"
           />
         </div>
-        <div className="relative mt-[1rem] flex flex-col">
+        <div className="relative mt-[1rem] flex flex-col w-full md:w-1/2">
           <label htmlFor="password" className="mb-1 text-[#999]">
             Password
           </label>
@@ -62,7 +62,7 @@ function LoginForm() {
             )}
           </button>
         </div>
-        <div className="mt-4 flex justify-end">
+        <div className="mt-4 flex justify-end w-full">
           <a
             href="/forgot-password"
             className="font-bold text-[#2ECC71] text-[14px] hover:text-[#7263F3] transition-all duration-300"
@@ -70,7 +70,7 @@ function LoginForm() {
             Forgot password?
           </a>
         </div>
-        <div className="flex">
+        <div className="flex w-full">
           <button
             type="submit"
             disabled={!email || !password}
@@ -81,7 +81,7 @@ function LoginForm() {
           </button>
           </div>
       </div>
-      <img src="../../icons/flurry.png" alt="" />
+      <img src="../../icons/flurry.png" alt="" className="w-full md:w-1/2" />
     </form>
   );
 }

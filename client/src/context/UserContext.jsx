@@ -18,7 +18,7 @@ export const UserContextProvider = ({ children }) => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  const serverUrl = "https://localhost:8000";
+  const serverUrl = "http://localhost:8000";
 
   const registerUser = async (e) => {
     e.preventDefault();
@@ -51,54 +51,145 @@ export const UserContextProvider = ({ children }) => {
 
   const loginUser = async (e) => {
     e.preventDefault();
+    setLoading(true);
+  
+    // Input validation
+    if (!userState.email || !userState.password) {
+      toast.error("Please enter both email and password");
+      setLoading(false);
+      return;
+    }
+  
+    if (!userState.email.includes('@')) {
+      toast.error("Please enter a valid email address");
+      setLoading(false);
+      return;
+    }
+  
     try {
+      // Add explicit headers
+      const config = {
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        withCredentials: true
+      };
+  
+      // Debug log before request
+      console.log('Attempting login for:', userState.email);
+  
       const res = await axios.post(
         `${serverUrl}/api/v1/login`,
         {
           email: userState.email,
           password: userState.password,
         },
-        {
-          withCredentials: true,
-        }
+        config
       );
-
-      toast.success("User logged in successfully");
-
-      setUserState({
-        email: "",
-        password: "",
-      });
-
-      await getUser();
-
-      navigate("/");
+  
+      // Debug log after successful response
+      console.log('Login response status:', res.status);
+  
+      if (res.data) {
+        toast.success("Login successful!");
+        
+        // Clear sensitive data
+        setUserState({
+          email: "",
+          password: "",
+        });
+  
+        // Get user details
+        await getUser();
+        
+        navigate("/");
+      }
     } catch (error) {
-      console.log("Error logging in user", error.response?.data.message);
-      toast.error(error.response.data.message);
+      // Enhanced error logging
+      const errorMessage = error.response?.data?.message || 'Login failed. Please try again.';
+      const statusCode = error.response?.status;
+      
+      console.error('Login error:', {
+        status: statusCode,
+        message: errorMessage,
+        details: error.response?.data
+      });
+  
+      // Specific error messages based on status code
+      if (statusCode === 401) {
+        toast.error("Invalid email or password");
+      } else if (statusCode === 429) {
+        toast.error("Too many login attempts. Please try again later.");
+      } else {
+        toast.error(errorMessage);
+      }
+    } finally {
+      setLoading(false);
     }
   };
 
   const userLoginStatus = async () => {
-    let loggedIn = false;
-
     try {
       const res = await axios.get(`${serverUrl}/api/v1/login-status`, {
-        withCredentials: true, // send cookies to the server
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        withCredentials: true
       });
-
-      loggedIn = !!res.data;
-      setLoading(false);
-
+  
+      const loggedIn = !!res.data;
+      
       if (!loggedIn) {
+        console.log('User not logged in, redirecting to login page');
         navigate("/login");
       }
+      
+      return loggedIn;
     } catch (error) {
-      console.log("Error getting user login status", error.response?.data.message);
+      console.error("Login status check failed:", {
+        status: error.response?.status,
+        message: error.response?.data?.message
+      });
+      
+      // Handle specific error cases
+      if (error.response?.status === 401) {
+        navigate("/login");
+      }
+      
+      return false;
+    } finally {
+      setLoading(false);
     }
-
-    return loggedIn;
   };
+
+  // Add request interceptor
+axios.interceptors.request.use((config) => {
+  // Add default headers
+  config.headers = {
+    ...config.headers,
+    'Content-Type': 'application/json',
+    'Accept': 'application/json'
+  };
+  return config;
+}, (error) => {
+  return Promise.reject(error);
+});
+
+// Add response interceptor
+axios.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    // Handle expired sessions
+    if (error.response?.status === 401) {
+      // Clear any stored user data
+      setUser({});
+      navigate("/login");
+    }
+    return Promise.reject(error);
+  }
+);
 
   const logoutUser = async () => {
     try {

@@ -57,52 +57,54 @@ export const registerUser = async(req, res)=>{
         }
 }
 
-export const loginUser = async(req,res)=>{
-    const { email, password } = req.body;
-
-    if(!email || !password){
-        return res.status(400).json({message: 'Please fill in all fields'});
+export const loginUser = async (req, res) => {
+    try {
+      const { email, password } = req.body;
+  
+      if (!email || !password) {
+        return res.status(400).json({ message: 'Please fill in all fields' });
+      }
+  
+      const user = await User.findOne({ email }).select('+password');
+  
+      if (!user) {
+        return res.status(401).json({ message: 'Invalid credentials' });
+      }
+  
+  
+      if (!user.password) {
+        return res.status(401).json({ message: 'Invalid credentials' });
+      }
+  
+      // Generate token
+      const token = generateToken(user._id);
+  
+      // Set secure cookie
+      res.cookie('token', token, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+        maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
+        path: '/'
+      });
+  
+      // Remove password from response
+      const userResponse = {
+        _id: user._id,
+        name: user.name,
+        email: user.email,
+        role: user.role,
+        photo: user.photo,
+        bio: user.bio,
+        isVerified: user.isVerified
+      };
+  
+      res.status(200).json(userResponse);
+    } catch (error) {
+      console.error('Login error:', error);
+      res.status(500).json({ message: 'Server error' });
     }
-
-    const userExists = await User.findOne({email});
-
-    if(!userExists){
-        return res.status(400).json({message: 'Invalid email or password'});
-    }
-
-    const isMatch = await bcrypt.compare(password, userExists.password);
-
-    if(!isMatch){
-        return res.status(400).json({message: 'Invalid email or password'});
-    }
-
-    const token = generateToken(userExists._id);
-
-    if(userExists && isMatch){
-        const { _id, name, email, role, photo, bio, isVerified } = userExists;
-
-        res.cookie('token', token, {
-            path: "/",
-            httpOnly: true,
-            maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
-            sameSite: "none", // cross-site access --> allow all third-party cookies
-            secure: true,
-        });
-
-        res.status(200).json({
-            _id,
-            name,
-            email,
-            role,
-            photo,
-            bio,
-            isVerified,
-            token
-        });
-    }else{
-        res.status(400).json({message: 'Invalid user data'});
-    }
-}
+  };
 
 export const logoutUser = async(_, res)=>{
     res.clearCookie("token", {
@@ -154,21 +156,37 @@ export const updateUser = async(req, res)=>{
     }
 }
 
-export const userLoginStatus = async(req, res)=>{
-    const token = req.cookies.token;
-
-    if (!token) {
-      res.status(401).json({ message: "Not authorized, please login!" });
-    }
-
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-
-    if (decoded) {
-        res.status(200).json(true);
-      } else {
-        res.status(401).json(false);
+export const userLoginStatus = async (req, res) => {
+    try {
+      const token = req.cookies.token;
+      
+      if (!token) {
+        return res.status(401).json({ 
+          isLoggedIn: false,
+          message: "Not authorized, please login!" 
+        });
       }
+  
+      try {
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        return res.status(200).json({ 
+          isLoggedIn: true,
+          user: decoded
+        });
+      } catch (error) {
+        return res.status(401).json({ 
+          isLoggedIn: false,
+          message: "Invalid token" 
+        });
+      }
+    } catch (error) {
+      console.error("Login status error:", error);
+      return res.status(500).json({ 
+        isLoggedIn: false,
+        message: "Server error" 
+      });
     }
+  };
 
     export const verifyEmail = async(req, res)=>{
         const user = await User.findById(req.user._id);
