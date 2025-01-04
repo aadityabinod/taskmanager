@@ -47,3 +47,9 @@ Taskco is a beautiful and intuitive task management application designed to help
 ```bash
 git clone https://github.com/aadityabinod/taskmanager.git
 cd taskmanager
+
+
+```bash
+MONGO_URI=your_mongodb_connection_string
+JWT_SECRET=your_jwt_secret_key
+PORT=5000
