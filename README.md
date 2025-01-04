@@ -29,9 +29,6 @@ Taskco is a beautiful and intuitive task management application designed to help
 **Authentication:**
 - JWT (JSON Web Tokens)
 
-**Deployment:**
-- Vercel (Frontend)
-- Render (Backend)
 
 ## Installation
 
@@ -125,6 +122,9 @@ bash
 cd server
 npm start
 Start the frontend development server:
+
+
+
 
 bash
 cd client
