@@ -37,9 +37,9 @@ function MiniSidebar() {
     ];
 
     return (
-        <div className="w-20 h-auto flex flex-col bg-white shadow-md">
-            <div className="flex-1 flex flex-col items-center justify-between">
-                <ul className="flex flex-col gap-6">
+        <div className="w-full h-20 flex bg-white shadow-md">
+            <div className="flex-1 flex ml-5 items-center justify-between">
+                <ul className="flex gap-6">
                     {navItems.map((item, index) => (
                         <li key={index} className="relative group">
                             <Link to={item.link} className="flex justify-center">
@@ -47,13 +47,16 @@ function MiniSidebar() {
                             </Link>
 
                             {/* Hover Tooltip */}
-                            <span className="absolute top-[50%] translate-y-[-50%] left-12 text-xs pointer-events-none text-white bg-[#FF5A5F] px-2 py-1 rounded-md shadow-lg opacity-0 group-hover:opacity-100">
+                            <span className="absolute bottom-12 left-[50%] translate-x-[-50%] text-xs pointer-events-none text-white bg-[#FF5A5F] px-2 py-1 rounded-md shadow-lg opacity-0 group-hover:opacity-100">
                                 {item.title}
                             </span>
+                            
                         </li>
                     ))}
+
+                    <br /> 
                 </ul>
-                <div className="mb-6">
+                <div className="mr-6">
                     <button className="w-12 h-12 flex justify-center items-center border-2 border-[#FF5A5F] p-2 rounded-full">
                         <IconDeleteAll strokeColor="#FF5A5F" />
                     </button>

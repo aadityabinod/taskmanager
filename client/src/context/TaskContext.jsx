@@ -29,10 +29,12 @@ export const TasksProvider = ({children}) =>{
       const openModalForEdit = (task) => {
         setModalMode("edit");
         setIsEditing(true);
+        setTask(task); 
         setActiveTask(task);
       };
 
       const openProfileModal = () => {
+        console.log("Opening profile modal");
         setProfileModal(true);
       };
     
@@ -61,7 +63,7 @@ export const TasksProvider = ({children}) =>{
     setLoading(true);
     try {
       const response = await axios.get(`${serverUrl}/task/${taskId}`);
-
+      console.log("Fetched task data:", response.data); // Log the fetched task
       setTask(response.data);
     } catch (error) {
       console.log("Error getting task", error);
@@ -87,18 +89,25 @@ export const TasksProvider = ({children}) =>{
   const updateTask = async (task) => {
     setLoading(true);
     try {
+      console.log("Updating task with ID:", task._id);
+      console.log("Task data being sent:", task);
+  
       const res = await axios.patch(`${serverUrl}/task/${task._id}`, task);
-
-      // update the task in the tasks array
+  
+      console.log("Task updated successfully", res.data);
+  
       const newTasks = tasks.map((tsk) => {
         return tsk._id === res.data._id ? res.data : tsk;
       });
-
+  
       toast.success("Task updated successfully");
-
+  
       setTasks(newTasks);
     } catch (error) {
-      console.log("Error updating task", error);
+      console.error("Error updating task", error);
+      toast.error("Failed to update task");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -120,7 +129,10 @@ export const TasksProvider = ({children}) =>{
     if (name === "setTask") {
       setTask(e);
     } else {
-      setTask({ ...task, [name]: e.target.value });
+      setTask((prevTask) => ({
+        ...prevTask,
+        [name]: e.target.type === 'checkbox' ? e.target.checked : e.target.value,
+      }));
     }
   };
 
@@ -138,30 +150,29 @@ export const TasksProvider = ({children}) =>{
 
   return (
     <TasksContext.Provider
-      value={{
-        tasks,
-        loading,
-        task,
-        tasks,
-        getTask,
-        createTask,
-        updateTask,
-        deleteTask,
-        priority,
-        setPriority,
-        handleInput,
-        isEditing,
-        setIsEditing,
-        openModalForAdd,
-        openModalForEdit,
-        activeTask,
-        closeModal,
-        modalMode,
-        openProfileModal,
-        activeTasks,
-        completedTasks,
-        profileModal,
-      }}
+    value={{
+      tasks,
+      loading,
+      task,
+      getTask,
+      createTask,
+      updateTask,
+      deleteTask,
+      priority,
+      setPriority,
+      handleInput,     
+      isEditing,
+      setIsEditing,
+      openModalForAdd,
+      openModalForEdit,
+      closeModal,
+      openProfileModal,
+      activeTask,
+      modalMode,
+      activeTasks,
+      completedTasks,
+      profileModal,  
+    }}
     >
               {children}
     </TasksContext.Provider>

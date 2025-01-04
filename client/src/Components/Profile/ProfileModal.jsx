@@ -2,6 +2,7 @@ import { useTasks } from "../../context/TaskContext";
 import { useUserContext } from "../../context/UserContext";
 import useDetectOutside from "../../hooks/UseDetectOutside";
 import {badge, check, github, mail} from "../../utils/Icons"
+import React from "react";
 
 function ProfileModal() {
     const ref = React.useRef(null);
@@ -41,7 +42,7 @@ function ProfileModal() {
           <div className="mt-4 relative flex justify-between">
             <div className="relative inline-block">
               <img
-                src={photo}
+                src="https://randomuser.me/api/portraits/men/3.jpg"
                 alt="profile"
                 width={80}
                 height={80}
