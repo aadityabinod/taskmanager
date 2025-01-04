@@ -44,7 +44,7 @@ Taskco is a beautiful and intuitive task management application designed to help
 
 ![Alt text](https://github.com/aadityabinod/taskmanager/blob/main/3.png)
 
-![Alt text](https://github.com/aadityabinod/taskmanager/blob/main/4.png)
+![Alt text](https://github.com/aadityabinod/taskmanager/blob/main/5.png)
 
 
 
