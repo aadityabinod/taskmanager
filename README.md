@@ -37,7 +37,16 @@ Taskco is a beautiful and intuitive task management application designed to help
 - npm (v8 or higher)
 - MongoDB (for local development)
 
-### Steps
+## Overview
+![Alt text](https://github.com/aadityabinod/taskmanager/blob/main/1.png)
+
+![Alt text](https://github.com/aadityabinod/taskmanager/blob/main/2.png)
+
+![Alt text](https://github.com/aadityabinod/taskmanager/blob/main/3.png)
+
+![Alt text](https://github.com/aadityabinod/taskmanager/blob/main/4.png)
+
+
 
 
 
