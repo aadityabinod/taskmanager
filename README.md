@@ -1,6 +1,6 @@
 # Taskco - Task Management Application
 
-Taskco is a beautiful and intuitive task management application designed to help you organize your tasks efficiently. With Taskco, you can create, update, and manage tasks with ease. Whether you're tracking personal to-dos or managing team projects, Taskco has you covered.
+Taskco is a intuitive task management application designed to help you organize your tasks efficiently. With Taskco, you can create, update, and manage tasks with ease. Whether you're tracking personal to-dos or managing team projects, Taskco has you covered.
 
 ## Features
 
